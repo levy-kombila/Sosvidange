@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    tools:context=".InscriptionActivity">
+
+    <!-- Retour -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabRetour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:contentDescription="Retour"
+        android:src="@drawable/angle_small_left"
+        app:backgroundTint="@color/green"
+        app:tint="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="HardcodedText" />
+
+    <!-- ScrollView pour tout le formulaire -->
+    <ScrollView
+        android:id="@+id/scrollContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:paddingTop="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="24dp">
+
+            <!-- Titre -->
+            <TextView
+                android:id="@+id/textViewInscrire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="S’inscrire"
+                android:textColor="@android:color/white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+            <TextView
+                android:id="@+id/textViewCCC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:text="Créez un compte pour commencer"
+                android:textColor="#CCCCCC"
+                android:textSize="14sp" />
+
+            <!-- Champ Nom -->
+            <EditText
+                android:id="@+id/editNom"
+                style="@style/ChampTexte"
+                android:hint="Nom de l'organisation" />
+
+            <!-- Champ Statut -->
+            <EditText
+                android:id="@+id/editStatut"
+                style="@style/ChampTexte"
+                android:hint="Statut (ex : Société privée)" />
+
+            <!-- Champ Numéro -->
+            <EditText
+                android:id="@+id/editNumero"
+                style="@style/ChampTexte"
+                android:hint="Numéro de téléphone"
+                android:inputType="phone" />
+
+            <!-- Champ Email -->
+            <EditText
+                android:id="@+id/editEmail"
+                style="@style/ChampTexte"
+                android:hint="Adresse e-mail"
+                android:inputType="textEmailAddress" />
+
+            <!-- Mot de passe -->
+            <EditText
+                android:id="@+id/editPassword"
+                style="@style/ChampTexte"
+                android:hint="Mot de passe"
+                android:inputType="textPassword" />
+
+            <!-- Confirmation mot de passe -->
+            <EditText
+                android:id="@+id/editPasswordConfirm"
+                style="@style/ChampTexte"
+                android:hint="Confirmer le mot de passe"
+                android:inputType="textPassword" />
+
+            <!-- Conditions -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkboxConditions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    tools:ignore="TouchTargetSizeCheck" />
+
+                <TextView
+                    android:id="@+id/textConditions"
+                    android:layout_width="82dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:text="J’accepte les"
+                    android:textColor="#FFFFFF" />
+
+                <TextView
+                    android:id="@+id/politiqueConfidentialite3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="Conditions générales"
+                    android:textColor="#AEE1FF" />
+
+                <TextView
+                    android:id="@+id/politiqueConfidentialite4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginBottom="24dp"
+                    android:text="Et"
+                    android:textColor="#FFFFFF" />
+            </LinearLayout>
+
+            <!-- Bouton inscription -->
+
+            <TextView
+                android:id="@+id/politiqueConfidentialite"
+                android:layout_width="262dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginBottom="24dp"
+                android:text="la Politique de confidentialité"
+                android:textAlignment="center"
+                android:textColor="#AEE1FF" />
+
+            <Button
+                android:id="@+id/btnInscription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#208120"
+                android:elevation="20dp"
+                android:text="Créer mon compte"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">SosVidange</string>
+    <string name="bienvenue">Bienvenue</string>
+    <string name="logo">logo</string>
+    <string name="retour">Retour</string>
+    <string name="faire_un_signalement">Faire un signalement</string>
+    <string name="filmer">Filmer</string>
+    <string name="galerie">Galerie</string>
+    <string name="type_de_d_chets_vidange">Type de déchets / vidange</string>
+    <string name="nom_de_la_ville">Nom de la ville</string>
+    <string name="nom_du_quartier">Nom du quartier</string>
+    <string name="description">Description</string>
+    <string name="soumettre">Soumettre</string>
+    <string name="default_web_client_id">TON_ID_CLIENT</string>
+</resources>
