@@ -27,7 +27,7 @@
             android:name=".ListeSignalementActionActivity"
             android:exported="false" />
         <activity
-            android:name=".AccueilTestActivity"
+            android:name=".DetailSansEditActivity"
             android:exported="false" />
         <activity
             android:name=".RechercheActivity"

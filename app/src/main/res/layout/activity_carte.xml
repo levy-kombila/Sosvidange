@@ -13,14 +13,20 @@
         android:id="@+id/bottom_navigation"
         style="@style/CustomBottomNav"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:background="#CC1A4F1C"
         android:elevation="8dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="206dp"
+        tools:layout_editor_absoluteY="356dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

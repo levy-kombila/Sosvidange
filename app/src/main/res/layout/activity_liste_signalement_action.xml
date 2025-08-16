@@ -89,14 +89,12 @@
     <!-- Liste des signalements -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAction"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="85dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_width="415dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/searchCard" />
 
 
     <!-- Bottom Navigation -->
@@ -104,14 +102,13 @@
         android:id="@+id/bottom_navigation"
         style="@style/CustomBottomNav"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:background="#CC1A4F1C"
         android:elevation="8dp"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -71,6 +71,11 @@ class ListeSignalementActionActivity : AppCompatActivity() {
                         val sig = dataSnapshot.getValue(Signalement::class.java)
                         sig?.let { signalementArrayList.add(it) }
                     }
+                    for (dataSnapshot in snapshot.children) {
+                        val sig = dataSnapshot.getValue(Signalement::class.java)
+                        sig?.id = dataSnapshot.key  // 🔑 Récupération de la clé Firebase
+                        sig?.let { signalementArrayList.add(it) }
+                    }
                     adapter.updateList(signalementArrayList)
                 }
             }
@@ -124,18 +129,17 @@ class ListeSignalementActionActivity : AppCompatActivity() {
             val ville = sig.nomVille?.lowercase() ?: ""
             val quartier = sig.nomQuartier?.lowercase() ?: ""
             val dateHeure = sig.dateHeure?.lowercase() ?: ""
-            val type = sig.type?.lowercase() ?: ""
             val commentaire = sig.commentaire?.lowercase() ?: ""
 
             keywords.any { kw ->
                 ville.contains(kw) ||
                         quartier.contains(kw) ||
                         dateHeure.contains(kw) ||
-                        type.contains(kw) ||
                         commentaire.contains(kw)
             }
         }
 
         adapter.updateList(filteredList)
     }
+
 }

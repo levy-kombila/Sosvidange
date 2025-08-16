@@ -35,6 +35,10 @@
         <!-- Taille fixe des icônes -->
         <item name="itemIconSize">28dp</item>
 
+        <!-- Couleurs d'icône et de texte -->
+        <item name="itemIconTint">@color/bottom_nav_colors</item>
+        <item name="itemTextColor">@color/bottom_nav_colors</item>
+
         <!-- Texte actif et inactif -->
         <item name="itemTextAppearanceActive">@style/BottomNavText</item>
         <item name="itemTextAppearanceInactive">@style/BottomNavText</item>
@@ -43,10 +47,10 @@
         <item name="labelVisibilityMode">labeled</item>
     </style>
 
-    <!-- Style du texte des items -->
     <style name="BottomNavText" parent="@android:style/TextAppearance.Small">
         <item name="android:textSize">12sp</item>
     </style>
+
 
 
 

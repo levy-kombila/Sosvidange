@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/home"
-        android:title="Accueil" />
+        android:icon="@drawable/ic_home"
+        android:title="@string/menu_home" />
+
     <item
         android:id="@+id/nav_action"
-        android:icon="@drawable/person_dragging_bag"
-        android:title="Action" />
+        android:icon="@drawable/ic_action"
+        android:title="@string/menu_action" />
+
     <item
         android:id="@+id/nav_map"
-        android:icon="@drawable/map"
-        android:title="Carte" />
+        android:icon="@drawable/ic_map"
+        android:title="@string/menu_map" />
+
     <item
         android:id="@+id/nav_settings"
-        android:icon="@drawable/setting"
-        android:title="Paramètres" />
+        android:icon="@drawable/ic_settings"
+        android:title="@string/menu_settings" />
 </menu>

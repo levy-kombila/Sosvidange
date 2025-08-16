@@ -4,4 +4,24 @@
     <color name="white">#FFFFFFFF</color>
     <color name="green">#066A02</color>
     <color name="checkbox_color">#066A02</color>
+    <color name="blue">#0B53D9</color>
+
+    <!-- Couleurs principales -->
+    <color name="colorPrimary">#1D3C84</color>
+    <color name="colorPrimaryDark">#142A5C</color>
+    <color name="colorAccent">#4F6AFF</color>
+
+    <!-- Couleurs de texte -->
+    <color name="textPrimary">#000000</color>
+    <color name="textSecondary">#666666</color>
+    <color name="textWhite">#FFFFFF</color>
+
+    <!-- Couleurs Bottom Navigation -->
+    <color name="navItemActive">#1D3C84</color>
+    <color name="navItemInactive">#999999</color>
+
+    <!-- Autres -->
+    <color name="backgroundLight">#F5F5F5</color>
+    <color name="backgroundWhite">#FFFFFF</color>
+    <color name="dangerRed">#FF3B30</color>
 </resources>

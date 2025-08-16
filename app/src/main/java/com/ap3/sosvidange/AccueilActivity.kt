@@ -2,18 +2,20 @@ package com.ap3.sosvidange
 
 import android.os.Build
 import android.os.Bundle
-import android.widget.Button
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.*
-import java.time.LocalDate
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import android.content.Intent
+import java.util.Locale
 
 class AccueilActivity : AppCompatActivity() {
 
@@ -24,16 +26,19 @@ class AccueilActivity : AppCompatActivity() {
         FirebaseDatabase.getInstance().getReference("Signalements")
     }
 
+    private var allSignalements: List<Signalement> = emptyList()
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_accueil)
 
-        // Configuration de la barre de navigation
+        // --- NAVIGATION ---
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNav.selectedItemId = R.id.nav_home
         setupBottomNavigation(this, bottomNav)
 
+        // --- RECYCLER ---
         val recyclerNouveau = findViewById<RecyclerView>(R.id.recyclerViewRecent)
         val recyclerAutre = findViewById<RecyclerView>(R.id.recyclerViewAll)
 
@@ -46,49 +51,88 @@ class AccueilActivity : AppCompatActivity() {
         recyclerNouveau.adapter = nouveauAdapter
         recyclerAutre.adapter = autreAdapter
 
+        // Charger signalements
         chargerSignalements()
+
+        // --- FILTRES ---
+        findViewById<TextView>(R.id.filterRecent).setOnClickListener { appliquerFiltre("RECENT") }
+        findViewById<TextView>(R.id.filterTotal).setOnClickListener { appliquerFiltre("TOTAL") }
+        findViewById<TextView>(R.id.filterUrgence).setOnClickListener { appliquerFiltre("URGENCE") }
+        findViewById<TextView>(R.id.filterEnCours).setOnClickListener { appliquerFiltre("EN_COURS") }
+        findViewById<TextView>(R.id.filterTraite).setOnClickListener { appliquerFiltre("TRAITE") }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun chargerSignalements() {
         database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val allSignalements = mutableListOf<Signalement>()
+                val tempList = mutableListOf<Signalement>()
 
-                val formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy", Locale.FRANCE)
-
-                // Récupère tous les signalements
                 for (data in snapshot.children) {
                     val signalement = data.getValue(Signalement::class.java)
-                    if (signalement != null) {
-                        allSignalements.add(signalement)
-                    }
+                    if (signalement != null) tempList.add(signalement)
                 }
 
-                // Trie par dateHeure décroissante (plus récent en premier)
-                val sortedSignalements = allSignalements.sortedByDescending { s ->
-                    try {
-                        val dh = s.dateHeure ?: ""
-                        LocalDateTime.parse(dh, formatter)
-                    } catch (e: Exception) {
-                        LocalDateTime.MIN
-                    }
-                }
+                allSignalements = tempList
 
-                // Prend 3 plus récents pour recyclerViewRecent
-                val topRecent = sortedSignalements.take(3)
+                // Par défaut → RECENT
+                appliquerFiltre("RECENT")
 
-                // Le reste va dans recyclerViewAll (sans les récents)
-                val autres = sortedSignalements.drop(3)
-
-                // Met à jour les adapters
-                nouveauAdapter.updateList(topRecent)
+                // Les autres (non récents) dans le 2ème RecyclerView
+                val autres = allSignalements.sortedByDescending { it.dateHeure }.drop(3)
                 autreAdapter.updateList(autres)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Gérer erreur ici si besoin (Toast, Log...)
+                // gérer erreur
             }
         })
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun appliquerFiltre(type: String) {
+        val formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy", Locale.FRANCE)
+
+        val filtered = when (type) {
+            "RECENT" -> {
+                allSignalements.sortedByDescending { s ->
+                    try {
+                        LocalDateTime.parse(s.dateHeure ?: "", formatter)
+                    } catch (e: Exception) {
+                        LocalDateTime.MIN
+                    }
+                }.take(5) // Les 5 plus récents
+            }
+            "TOTAL" -> allSignalements
+            "URGENCE" -> allSignalements.filter { it.etat?.lowercase(Locale.ROOT) == "urgent" }
+            "EN_COURS" -> allSignalements.filter { it.etat?.lowercase(Locale.ROOT) == "en cours" }
+            "TRAITE" -> allSignalements.filter { it.etat?.lowercase(Locale.ROOT) == "traité" }
+            else -> allSignalements
+        }
+
+        // On ne met à jour QUE le 1er RecyclerView
+        nouveauAdapter.updateList(filtered)
+
+        // Mettre à jour le texte et le nombre
+        majTextFiltres(type, filtered.size)
+    }
+    private fun majTextFiltres(type: String, count: Int) {
+        val textTitre = findViewById<TextView>(R.id.textViewNouveauSignalement)
+        val textNombre = findViewById<TextView>(R.id.textNombre)
+
+        // Changer le titre selon le filtre
+        val titre = when (type) {
+            "RECENT" -> "Signalements récents"
+            "TOTAL" -> "Tous les signalements"
+            "URGENCE" -> "Signalements urgents"
+            "EN_COURS" -> "Signalements en cours"
+            "TRAITE" -> "Signalements traités"
+            else -> "Signalements"
+        }
+
+        textTitre.text = titre
+        textNombre.text = count.toString()
+    }
+
 }
+

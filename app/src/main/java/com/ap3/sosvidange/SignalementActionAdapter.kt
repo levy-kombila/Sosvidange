@@ -1,5 +1,6 @@
 package com.ap3.sosvidange
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,7 @@ class SignalementActionAdapter (private var signalements: List<Signalement>) :
         val commentaire: TextView = view.findViewById(R.id.tvCommentaire)
         val dateHeure: TextView = view.findViewById(R.id.tvDateHeure)
         val etat: TextView = view.findViewById(R.id.tvEtat)
+        val ivDetailsArrow: ImageView = view.findViewById(R.id.ivDetailsArrow)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SignalementViewHolder {
@@ -42,6 +44,14 @@ class SignalementActionAdapter (private var signalements: List<Signalement>) :
             "En cours" -> holder.etat.setTextColor(android.graphics.Color.parseColor("#FB8C00"))
             "Traité" -> holder.etat.setTextColor(android.graphics.Color.parseColor("#43A047"))
             else -> holder.etat.setTextColor(android.graphics.Color.parseColor("#E53935"))
+        }
+
+        // Clic sur la flèche pour voir les détails
+        holder.ivDetailsArrow.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailSignalementActivity::class.java)
+            intent.putExtra("signalementId", signalement.id) // Passe l’ID Firebase
+            context.startActivity(intent)
         }
     }
 

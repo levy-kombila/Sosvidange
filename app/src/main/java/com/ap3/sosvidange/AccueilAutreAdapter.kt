@@ -1,5 +1,6 @@
 package com.ap3.sosvidange
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,12 @@ class AccueilAutreAdapter(
         holder.imageView.load(signalement.image?.replace("http://", "https://"))
         holder.titre.text = signalement.etat ?: "Sans titre" // Remplacer par l'etat qui est Urgent
         holder.lieu.text = "${signalement.nomQuartier}, ${signalement.nomVille}"
+
         holder.btnVoir.setOnClickListener {
-            // Action quand on clique sur "Voir"
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailSansEditActivity::class.java)
+            intent.putExtra("signalementId", signalement.id) // Passe l’ID Firebase
+            context.startActivity(intent)
         }
     }
 

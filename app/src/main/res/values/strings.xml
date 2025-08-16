@@ -12,4 +12,32 @@
     <string name="description">Description</string>
     <string name="soumettre">Soumettre</string>
     <string name="default_web_client_id">TON_ID_CLIENT</string>
+
+    <string name="menu_home">Accueil</string>
+    <string name="menu_action">Action</string>
+    <string name="menu_map">Carte</string>
+    <string name="menu_settings">Paramètres</string>
+
+
+    <!-- Bottom Navigation -->
+    <string name="nav_home">Accueil</string>
+    <string name="nav_search">Rechercher</string>
+    <string name="nav_notifications">Notifications</string>
+    <string name="nav_profile">Profil</string>
+
+    <!-- Recherche -->
+    <string name="search_hint">Rechercher par Ville, quartier, heure...</string>
+
+    <!-- Filtres -->
+    <string name="filter_recent">RECENT</string>
+    <string name="filter_total">TOTAL</string>
+    <string name="filter_urgent">URGENCE</string>
+    <string name="filter_encours">EN COURS</string>
+    <string name="filter_traite">TRAITÉ</string>
+
+    <!-- Sections -->
+    <string name="title_new_report">Nouveau signalement</string>
+    <string name="title_others">Autres...</string>
+    <string name="see_more">Voir plus</string>
+    <string name="notification">Notification</string>
 </resources>

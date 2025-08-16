@@ -1,5 +1,6 @@
 package com.ap3.sosvidange
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,9 @@ class AccueilNouveauAdapter(
         val imageView: ImageView = view.findViewById(R.id.imageSignalement)
         val titre: TextView = view.findViewById(R.id.tvTitre)
         val lieu: TextView = view.findViewById(R.id.tvLieu)
+        val imageAngle: ImageView = view.findViewById(R.id.imageAngle)
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NouveauViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -30,6 +33,15 @@ class AccueilNouveauAdapter(
         holder.imageView.load(signalement.image?.replace("http://", "https://"))
         holder.titre.text = signalement.etat ?: "Sans titre"
         holder.lieu.text = "${signalement.nomQuartier}, ${signalement.nomVille}"
+
+
+        // Clic sur la flèche pour voir les détails
+        holder.imageAngle.setOnClickListener {
+            val context = holder.itemView.context
+            val intent = Intent(context, DetailSansEditActivity::class.java)
+            intent.putExtra("signalementId", signalement.id) // Passe l’ID Firebase
+            context.startActivity(intent)
+        }
     }
 
     override fun getItemCount() = signalements.size

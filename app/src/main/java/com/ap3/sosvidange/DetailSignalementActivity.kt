@@ -1,9 +1,11 @@
 package com.ap3.sosvidange
 
 import android.os.Bundle
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -12,113 +14,89 @@ import com.google.firebase.database.*
 
 class DetailSignalementActivity : AppCompatActivity() {
 
-    private lateinit var databaseRef: DatabaseReference
+    private lateinit var databaseReference: DatabaseReference
     private var signalementId: String? = null
 
-    // Views
-    private lateinit var imgDetail: ImageView
-    private lateinit var tvVille: TextView
-    private lateinit var tvQuartier: TextView
-    private lateinit var tvCommentaire: TextView
-    private lateinit var tvDate: TextView
-    private lateinit var editEtat: EditText
-    private lateinit var btnSave: Button
+    private lateinit var detailImage: ImageView
+    private lateinit var detailVille: TextView
+    private lateinit var detailQuartier: TextView
+    private lateinit var detailCommentaire: TextView
+    private lateinit var detailDate: TextView
+    private lateinit var spinnerEtat: Spinner
+    private lateinit var btnEnregistrer: Button
+
+    private val etats = arrayOf("Urgent", "En cours", "Traité")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_signalement)
 
-        // findViewById (IDs selon ton layout)
-        imgDetail = findViewById(R.id.detailImage)
-        tvVille = findViewById(R.id.detailVille)
-        tvQuartier = findViewById(R.id.detailQuartier)
-        tvCommentaire = findViewById(R.id.detailCommentaire)
-        tvDate = findViewById(R.id.detailDate)
-        editEtat = findViewById(R.id.editEtat)
-        btnSave = findViewById(R.id.btnEnregistrer)
+        // Init vues
+        detailImage = findViewById(R.id.detailImage)
+        detailVille = findViewById(R.id.detailVille)
+        detailQuartier = findViewById(R.id.detailQuartier)
+        detailCommentaire = findViewById(R.id.detailCommentaire)
+        detailDate = findViewById(R.id.detailDate)
+        spinnerEtat = findViewById(R.id.spinnerEtat)
+        btnEnregistrer = findViewById(R.id.btnEnregistrer)
 
-        // Extras & ID
-        signalementId = intent.getStringExtra("id")
-        val extraImage = intent.getStringExtra("image")
-        val extraType = intent.getStringExtra("type")
-        val extraVille = intent.getStringExtra("nomVille")
-        val extraQuartier = intent.getStringExtra("nomQuartier")
-        val extraCommentaire = intent.getStringExtra("commentaire")
-        val extraDate = intent.getStringExtra("dateHeure")
-        val extraEtat = intent.getStringExtra("etat")
+        // Remplir le Spinner avec les valeurs prédéfinies
+        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, etats)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerEtat.adapter = adapter
 
-        // DB ref
-        databaseRef = FirebaseDatabase.getInstance().getReference("Signalements")
+        // Récupère l'ID passé depuis l'adapter
+        signalementId = intent.getStringExtra("signalementId")
 
-        if (signalementId != null) {
-            databaseRef.child(signalementId!!).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val s = snapshot.getValue(Signalement::class.java)
-                    if (s != null) {
-                        populateViewsFromSignalement(s)
-                    } else {
-                        populateViewsFromExtras(extraImage, extraType, extraVille, extraQuartier, extraCommentaire, extraDate, extraEtat)
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Toast.makeText(this@DetailSignalementActivity, "Erreur de chargement", Toast.LENGTH_SHORT).show()
-                    populateViewsFromExtras(extraImage, extraType, extraVille, extraQuartier, extraCommentaire, extraDate, extraEtat)
-                }
-            })
-        } else {
-            // Pas d'ID : fallback aux extras et désactive la sauvegarde
-            populateViewsFromExtras(extraImage, extraType, extraVille, extraQuartier, extraCommentaire, extraDate, extraEtat)
-            btnSave.isEnabled = false
-            btnSave.alpha = 0.5f
+        if (signalementId == null) {
+            Toast.makeText(this, "Erreur : ID manquant", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
 
-        // Sauvegarder nouvel état (si id présent)
-        btnSave.setOnClickListener {
-            val newEtat = editEtat.text.toString().trim()
-            if (newEtat.isEmpty()) {
-                Toast.makeText(this, "Renseigne un état", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-            if (signalementId == null) {
-                Toast.makeText(this, "Impossible de sauvegarder (ID manquant)", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+        // Référence Firebase
+        databaseReference = FirebaseDatabase.getInstance()
+            .getReference("Signalements")
+            .child(signalementId!!)
 
-            databaseRef.child(signalementId!!).child("etat").setValue(newEtat)
+        // Charger les données
+        loadSignalement()
+
+        // Sauvegarde modifications
+        btnEnregistrer.setOnClickListener {
+            val newEtat = spinnerEtat.selectedItem.toString()
+            databaseReference.child("etat").setValue(newEtat)
                 .addOnSuccessListener {
                     Toast.makeText(this, "État mis à jour", Toast.LENGTH_SHORT).show()
-                    finish()
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, "Erreur lors de la mise à jour", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Erreur : ${it.message}", Toast.LENGTH_SHORT).show()
                 }
         }
     }
 
-    private fun populateViewsFromSignalement(s: Signalement) {
-        imgDetail.load(s.image?.replace("http://", "https://"))
-        tvVille.text = s.nomVille ?: ""
-        tvQuartier.text = s.nomQuartier ?: ""
-        tvCommentaire.text = s.commentaire ?: ""
-        tvDate.text = s.dateHeure ?: ""
-        editEtat.setText(s.etat ?: "")
-    }
+    private fun loadSignalement() {
+        databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val sig = snapshot.getValue(Signalement::class.java)
+                sig?.let {
+                    detailVille.text = it.nomVille
+                    detailQuartier.text = it.nomQuartier
+                    detailCommentaire.text = it.commentaire
+                    detailDate.text = it.dateHeure
 
-    private fun populateViewsFromExtras(
-        image: String?,
-        type: String?,
-        ville: String?,
-        quartier: String?,
-        commentaire: String?,
-        dateHeure: String?,
-        etat: String?
-    ) {
-        imgDetail.load(image?.replace("http://", "https://"))
-        tvVille.text = ville ?: ""
-        tvQuartier.text = quartier ?: ""
-        tvCommentaire.text = commentaire ?: ""
-        tvDate.text = dateHeure ?: ""
-        editEtat.setText(etat ?: "")
+                    // Charger l’image
+                    detailImage.load(it.image?.replace("http://", "https://"))
+
+                    // Sélectionner l'état actuel dans le Spinner
+                    val index = etats.indexOf(it.etat)
+                    if (index >= 0) spinnerEtat.setSelection(index)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Toast.makeText(this@DetailSignalementActivity, "Erreur : ${error.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

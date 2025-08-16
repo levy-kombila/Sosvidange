@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Image du signalement -->
+        <ImageView
+            android:id="@+id/detailImage"
+            android:layout_width="250dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/image_rounded_background"
+            android:contentDescription="Image du signalement"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Ville -->
+        <TextView
+            android:id="@+id/detailVille"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ville"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Quartier -->
+        <TextView
+            android:id="@+id/detailQuartier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quartier"
+            android:textSize="18sp"
+            android:textColor="#DDDDDD"
+            android:layout_marginBottom="8dp" />
+
+        <!-- État -->
+        <TextView
+            android:id="@+id/detailEtat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Urgent"
+            android:textSize="18sp"
+            android:textStyle="italic"
+            android:textColor="#FF9800"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Ligne de séparation -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#CCCCCC"
+            android:layout_marginVertical="10dp" />
+
+        <!-- Commentaire -->
+        <TextView
+            android:id="@+id/detailCommentaire"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Commentaire du signalement..."
+            android:textSize="16sp"
+            android:textColor="#FFFFFF"
+            android:layout_marginBottom="8dp" />
+
+        <!-- Date et heure -->
+        <TextView
+            android:id="@+id/detailDateHeure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date et heure"
+            android:textSize="14sp"
+            android:textColor="#AAAAAA"
+            android:layout_marginBottom="16dp" />
+
+    </LinearLayout>
+</ScrollView>

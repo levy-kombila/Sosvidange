@@ -60,6 +60,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.0.0"))
 
     implementation("com.google.android.material:material:1.11.0")
+    implementation(libs.play.services.maps)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

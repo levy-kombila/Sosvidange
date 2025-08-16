@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentSignalement"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
     android:layout_margin="8dp"
-    android:background="@drawable/image_rounded_background">
+    android:background="@drawable/image_rounded_background"
+    android:orientation="horizontal"
+    android:padding="8dp">
 
     <ImageView
         android:id="@+id/imageSignalement"
@@ -14,7 +16,7 @@
         android:src="@drawable/placeholder_image" />
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="203dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical"
@@ -25,15 +27,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Titre"
-            android:textStyle="bold"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvLieu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lieu"
-            android:textSize="12sp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/darker_gray"
+            android:textSize="12sp" />
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageAngle"
+        android:layout_width="1dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:paddingTop="12dp"
+        app:srcCompat="@drawable/angle_double_small_right" />
+
 </LinearLayout>
